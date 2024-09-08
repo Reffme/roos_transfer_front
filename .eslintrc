@@ -1,0 +1,30 @@
+{
+  "root": true,
+    "env": {
+  "browser": true,
+      "es6": true,
+      "node": true
+},
+  "extends": [
+  "plugin:vue/vue3-recommended",
+  "eslint:recommended",
+  "@vue/typescript/recommended",
+  "@vue/prettier",
+  "plugin:cypress/recommended"
+],
+    "parserOptions": {
+  "ecmaVersion": 2022
+},
+  "plugins": ["cypress"],
+    "rules": {
+  "no-console": [
+    "error",
+    {
+      "allow": ["warn", "error"]
+    }
+  ],
+      "@typescript-eslint/no-explicit-any": "error",
+      // Временно убрал правильно, потому что оно не совсем верно называется
+      "vue/no-setup-props-destructure": "off"
+}
+}

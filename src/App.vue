@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 import AppLayoutDefault from "@/layouts/AppLayoutDefault.vue";
 import {computed, type CSSProperties} from "vue";
-import {dateRuRU, ruRU} from "naive-ui";
+import {dateRuRU, NConfigProvider, ruRU} from "naive-ui";
+import {overrideNaiveUiTheme} from "@/utils/const/overrideNaiveUiTheme";
 
 const providerClassObject = computed(() => ({
   'h-full': true,
@@ -17,6 +18,7 @@ const messageProviderStyle: CSSProperties = {
   <NConfigProvider
       :class="providerClassObject"
       :locale="ruRU"
+      :theme-overrides="overrideNaiveUiTheme"
       :date-locale="dateRuRU"
   >
     <NDialogProvider>

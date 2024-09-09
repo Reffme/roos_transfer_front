@@ -1,12 +1,13 @@
 <script setup lang="ts">
   import { NFormItem, NInput } from 'naive-ui'
   import { useField } from 'vee-validate'
-  import { computed, ref, toRef, watch } from 'vue'
+  import { computed, toRef, watch } from 'vue'
   import { FormValidationStatus } from 'naive-ui/es/form/src/interface'
 
   const props = defineProps<{
     name: string
     label?: string
+    hideLabel?: boolean
     rows?: number
     disabled?: boolean
     loading?: boolean
@@ -49,7 +50,7 @@
 </script>
 
 <template>
-  <NFormItem :label="label" :validation-status="errorStatus">
+  <NFormItem class="px-2"  :label="!hideLabel && label" :validation-status="errorStatus">
     <NInput
       :value="value"
       :clearable="clearable"

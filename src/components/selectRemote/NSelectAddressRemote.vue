@@ -6,6 +6,8 @@
   const props = defineProps<{
     address?: string
     name: string
+    withoutFormItem?: boolean
+    hideLabel?:boolean
     label?: string
   }>()
 
@@ -32,8 +34,9 @@
 
 <template>
   <BaseRemoteSelect
+      hide-label
     :name="name"
-    :label
+    :label :without-form-item="withoutFormItem"
     :search-handler="searchHandler"
     @update:value="onUpdateHandler"
   />

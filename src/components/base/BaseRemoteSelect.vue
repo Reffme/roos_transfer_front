@@ -14,8 +14,10 @@
     initValue?: T
     name: string
     label?: string
+    hideLabel?:boolean
     placeholder?: string
     disabled?: boolean
+    withoutFormItem?: boolean
     searchHandler: PropsSearchHandler
     valueField?: string
     lateInit?: boolean
@@ -146,18 +148,45 @@
 </script>
 
 <template>
+  <template v-if="withoutFormItem">
+  <NSelect
+      v-if="optionsFind"
+      class="bg-[#A0A0A0]"
+      v-model:value="value"
+      clearable
+      :options="options"
+      :loading="isLoading"
+      :fallback-option="fallbackOption"
+      filterable
+      remote
+      :placeholder="placeholder || label"
+      :disabled="disabled"
+      :multiple="multiple"
+      @search="handleSearch"
+      @update:value="handleUpdate"
+  />
+  <NSelect
+      v-else
+      remote
+      :loading="isLoading"
+      disabled
+      @search="handleSearch"
+  />
+  </template>
   <NFormItem
-    :label="label"
+      v-else
+      class="bg-[#A0A0A0]"
+    :label="!hideLabel && label"
     :validation-status="errorMessage ? 'error' : undefined"
     :show-feedback="!!label"
   >
     <NSelect
       v-if="optionsFind"
+      class="bg-[#A0A0A0] px-2"
       v-model:value="value"
       clearable
       :options="options"
       :loading="isLoading"
-      :render-option="renderOption"
       :fallback-option="fallbackOption"
       filterable
       remote

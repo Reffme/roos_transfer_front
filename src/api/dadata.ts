@@ -1,4 +1,3 @@
-import axios from 'axios'
 import type { AxiosPromise } from 'axios'
 import serviceDadata from "@/utils/requestDadata";
 

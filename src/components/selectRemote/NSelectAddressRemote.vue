@@ -18,7 +18,7 @@
   const searchHandler = async (query?: string) =>
       (await getAddressSuggestions(query)).map((item) =>({
         label: item.value,
-        value: item
+        value: item.value,
       }))
 
   const onUpdateHandler = (data:  {value: string, data: object}) => {
@@ -34,8 +34,8 @@
 
 <template>
   <BaseRemoteSelect
-      hide-label
     :name="name"
+    hide-label
     :label :without-form-item="withoutFormItem"
     :search-handler="searchHandler"
     @update:value="onUpdateHandler"

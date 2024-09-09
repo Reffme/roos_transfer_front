@@ -76,12 +76,16 @@ export const overrideNaiveUiTheme: GlobalThemeOverrides = {
   Input: {
     heightLarge: '50px',
     fontSizeLarge: '18px',
-    borderRadius: '1px',
+    borderRadius: '5px',
     border: '1px solid #A0A0A0',
     borderFocus: '1px solid #A0A0A0',
     caretColor: mainSuccessButtonColor,
     loadingColor: mainSuccessButtonColor,
     borderHover: mainButtonColorHover,
+  },
+  Form: {
+    labelHeightMedium: '10px',
+    feedbackHeightMediumH: '16px'
   },
   Menu: {
     itemTextColorActive: mainSuccessButtonColor,

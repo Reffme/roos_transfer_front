@@ -50,7 +50,7 @@
 </script>
 
 <template>
-  <NFormItem class="px-2"  :label="!hideLabel && label" :validation-status="errorStatus">
+  <NFormItem class="px-2" :validation-status="errorStatus">
     <NInput
       :value="value"
       :clearable="clearable"

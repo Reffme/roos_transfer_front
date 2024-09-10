@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { NFormItem, NInput } from 'naive-ui'
   import { useField } from 'vee-validate'
+  import { Mask } from 'maska'
   import { computed, toRef, watch } from 'vue'
   import { FormValidationStatus } from 'naive-ui/es/form/src/interface'
 
@@ -9,6 +10,7 @@
     label?: string
     hideLabel?: boolean
     rows?: number
+    mask?: string
     disabled?: boolean
     loading?: boolean
     clearable?: boolean
@@ -25,6 +27,8 @@
       label: ' ',
     },
   )
+
+  const mask = new Mask({ mask: props.mask })
 
 
   const handleUpdateInput = (inputData?: string) => {
@@ -52,7 +56,7 @@
 <template>
   <NFormItem class="px-2" :validation-status="errorStatus">
     <NInput
-      :value="value"
+      :value="(mask && value) ? mask.masked(value): value"
       :clearable="clearable"
       :placeholder="label"
       :disabled="disabled"

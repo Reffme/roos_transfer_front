@@ -8,6 +8,12 @@ module.exports = {
         'custom': '0 4px 6px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.1)',
       }
     },
+    screens: {
+      'sm': '576px',
+      // => @media (min-width: 576px) { ... }
+
+      'md': '960px',
+    },
     maxWidth: {
       container: '100%',
       modal: '550px'

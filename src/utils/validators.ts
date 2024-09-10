@@ -15,7 +15,7 @@ defineRule('phoneNumber', (value: string) => {
     return true
   }
 
-  if (value.length !== 12) {
+  if (value.length <= 12) {
     return 'Номер телефона должен содержать 12 символов'
   }
 
@@ -28,7 +28,7 @@ configure({
   generateMessage: localize('ru', {
     messages: {
       ...ru.messages,
-      required: 'Поле обязательно для заполнения',
+      required: 'Обязательно для заполнения',
     },
   }),
 })

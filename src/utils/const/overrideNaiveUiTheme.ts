@@ -85,8 +85,11 @@ export const overrideNaiveUiTheme: GlobalThemeOverrides = {
     borderHover: mainButtonColorHover,
   },
   Form: {
-    labelHeightMedium: '10px',
+    labelHeightMedium: '0px',
     feedbackHeightMediumH: '16px'
+  },
+  Timeline: {
+    titleMarginMedium: '-4px 0px 4px 0px'
   },
   Menu: {
     itemTextColorActive: mainSuccessButtonColor,

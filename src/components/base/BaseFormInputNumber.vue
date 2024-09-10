@@ -13,14 +13,15 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'update:value': [value: string]
+  'update:value': [value: number | undefined]
 }>()
 
 
 const { value, errorMessage, handleChange } = useField<
-    number | undefined | string
+    number | undefined
 >(toRef(props, 'name'), undefined, {
   label: ' ',
+  initialValue: 0
 })
 
 const errorStatus = computed<FormValidationStatus | undefined>(() => {

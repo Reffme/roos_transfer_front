@@ -24,7 +24,7 @@ export const parseParams = (params: Record<string, unknown>) => {
 const service = axios.create({
   baseURL: import.meta.env.VITE_BASE_API_URL,
   timeout: 18000,
-  withCredentials: true,
+  withCredentials: false,
   paramsSerializer: (params) => {
     return parseParams(params)
   },
@@ -55,7 +55,7 @@ service.interceptors.request.use(
         /_(gt|lt)$/.test(key) ? key.slice(0, -3) + '_' + key.slice(-3) : key,
       )
     }
-
+    config.headers["Access-Control-Allow-Origin"] = "*"
     return config
   },
   (error) => {
@@ -63,13 +63,12 @@ service.interceptors.request.use(
   },
 )
 
-let isRefreshing = false
 service.interceptors.response.use(
   (response) => {
     if (response.headers['content-type'] === 'application/json') {
       response.data = camelcaseKeys(response.data, { deep: true })
     }
-
+    response.headers["Access-Control-Allow-Origin"] = "*"
     return response
   },
   async (error) => {

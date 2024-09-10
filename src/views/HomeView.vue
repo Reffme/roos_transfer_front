@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import BaseFormInput from '@/components/base/BaseFormInput.vue'
-import { NTabPane, NTabs } from 'naive-ui'
+import {NButton, NTabPane, NTabs} from 'naive-ui'
 import CarCard from '@/components/CarCard.vue'
 import { carsOptions } from '@/utils/const/constOptions'
 import BaseFormDatePicker from '@/components/base/BaseFormDatePicker.vue'
@@ -10,33 +10,62 @@ import { useForm } from 'vee-validate'
 import type { ValidationRule } from '@/models/ValidationRule'
 import type { DeliveryRequest } from '@/models/DeliveryRequest'
 import type { TransferRequest } from '@/models/TransferRequest'
-import { ref } from 'vue'
+import {computed, ref} from 'vue'
 import type { Car } from '@/models/CarType'
+import {useTransferStore} from "@/stores/transfer";
+import {useDeliveryStore} from "@/stores/delivery";
+import FormTabs from "@/components/FormTabs.vue";
+import {RemoteOption} from "@/models/RemoteOption";
+import BaseFormTimePicker from "@/components/base/BaseFormTimePicker.vue";
 
 type ValidationSchema = Record<keyof DeliveryRequest & TransferRequest, ValidationRule>
-const schema: Partial<ValidationSchema> = {
-  date: {
+const currentTab = ref('transfer')
+    const schema = computed<Partial<ValidationSchema>>(() => ({
+  from: {
     required: true
   },
-  from: {
+  date: {
     required: true
   },
   to: {
     required: true
+  },
+  personCount: {
+    required: true
+  },
+  phoneNumber: {
+    required: true,
+    phoneNumber: true,
+  },
+  time: {
+    required: true
+  },
+  comment: {
+    required: currentTab.value === 'delivery'
   }
-}
+}))
 
-const selectedCar = ref<Car>()
+const { createTransferOrder } = useTransferStore()
+const { createDeliveryOrder } = useDeliveryStore()
 
-const onUpdatePersonCount = (value: number) => {
-  if (value > (selectedCar.value?.passenger || 0)) {
-    selectedCar.value = undefined
-  }
-}
+const fromOptions = ref<RemoteOption<Record<string, unknown> | string>[]>([])
+const toOptions = ref<RemoteOption<Record<string, unknown> | string>[]>([])
 
-const { handleSubmit, values } = useForm<DeliveryRequest & TransferRequest>({
+const { handleSubmit } = useForm<DeliveryRequest & TransferRequest>({
   validationSchema: schema
 })
+
+const onConfirmClickHandler = handleSubmit(
+    async (
+        values) => {
+      if (currentTab.value === 'delivery') {
+        await createDeliveryOrder(values)
+      } else {
+        await createTransferOrder(values)
+      }
+    })
+
+
 </script>
 
 <template>
@@ -49,39 +78,22 @@ const { handleSubmit, values } = useForm<DeliveryRequest & TransferRequest>({
     <!-- Контейнер формы, выровненный по центру -->
     <main class="flex-grow flex justify-center items-center p-4">
       <form
-        class="w-[750px] h-[800px] pt-4 overflow-y-scroll rounded-xl shadow-custom p-6 custom-scrollbar"
-        @submit.prevent="handleSubmit"
+        class="w-[750px] flex flex-col justify-between h-[800px] pt-4 max-md:overflow-y-scroll rounded-xl shadow-custom p-6 custom-scrollbar"
+        @submit.prevent="onConfirmClickHandler"
       >
-        <NTabs class="custom-tabs" type="segment" animated>
-          <NTabPane display-directive="show" name="oasis" tab="ПОЕЗДКА">
-            <PathInput />
-            <BaseFormInputNumber
-              name="personCount"
-              placeholder="Количество пассажиров"
-              @update:value="onUpdatePersonCount"
-            />
-            <div class="flex flex-wrap gap-4 px-4">
-              <CarCard
-                v-for="car in carsOptions"
-                v-model:selected-car="selectedCar"
-                :key="car.type"
-                v-bind="car"
-                :disabled="car.passenger < values.personCount"
-              />
-            </div>
-          </NTabPane>
-          <NTabPane display-directive="show" name="jay chou" tab="ДОСТАВКА">
-            <PathInput />
-          </NTabPane>
-        </NTabs>
+        <div>
+          <FormTabs v-model:çurrent-tab="currentTab"><PathInput v-model:from-option="fromOptions" v-model:to-option="toOptions" /></FormTabs>
         <BaseFormInput hide-label name="comment" label="Комментарий" />
-        <BaseFormInput hide-label name="phoneNumber" label="Номер телефона" />
-        <BaseFormDatePicker name="date" label="Дата отправки" />
+          <BaseFormInput
+              name="phoneNumber"
+              label="Номер телефона"
+              mask="+7##########"
+              get-unmasked-value
+          />
+        <div class="flex"><BaseFormDatePicker name="date" label="Дата отправки" class="w-2/3"/><BaseFormTimePicker name="time" label="Дата отправки" class="w-1/3" /></div>
+        </div>
+        <NButton type="success" attr-type="submit" class="w-full">Заказать</NButton>
       </form>
     </main>
   </div>
 </template>
-
-<style scoped>
-
-</style>

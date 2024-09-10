@@ -44,30 +44,35 @@ const cardClass = computed(() => {
   if (!props.disabled){
     resultClass += 'cursor-pointer'
   }
+  else {
+    resultClass += 'opacity-[45%]'
+  }
   if (selectedCar.value?.type === props.type){
     resultClass += ' animate-pulse'
   }
   return  resultClass
 })
 
+const a ='rgba(96,93,93,0.13)'
+
 </script>
 
 <template>
-  <div class="h-16 w-[31%]">
+  <div class="h-12 w-[28%] max-md:h-24 min-w-[128px]">
     <div @click="onSelect"
          :class="cardClass"
          :style="{borderColor: (selectedCar?.type === type)? '#000000':'#e0e0e0'}"
-         class="px-1 py-2 h-16  bg-[#FFFFFF] border-2 flex rounded-xl w-full"
+         class="px-1 py-2 h-12 transition-all max-md:gap-1 bg-[#FFFFFF] max-md:h-24 max-md:items-center border-2 flex max-md:justify-center max-md:flex-col rounded-xl w-full"
     >
-      <NImage preview-disabled :src="getImageUrl(imageMap[type])"/>
-      <div class="flex justify-center gap-1 flex-col">
-        <p class="pl-2">{{ type }}</p>
+      <p class="pl-2 hidden max-md:flex">{{ type }}</p>
+      <NImage class="max-md:w-[55%] w-1/2" preview-disabled :src="getImageUrl(imageMap[type])"/>
+      <div class="flex py-2 justify-center max-md:gap-1 flex-col">
+        <p class="pl-2 flex max-md:hidden">{{ type }}</p>
         <div class="flex gap-2.5 flex-row">
-          <div class="flex gap-1 items-center"><User/> {{ passenger }}</div>
-          <div class="flex gap-1 items-center"><Briefcase/> {{ baggage }}</div>
+          <div class="flex gap-1 items-center"><User :size="19"/> {{ passenger }}</div>
+          <div class="flex gap-1 items-center"><Briefcase :size="19"/> {{ baggage }}</div>
         </div>
       </div>
     </div>
-    <div v-show="disabled" class="h-16 relative top-[-64px] rounded-xl bg-[#605D5D54]"/>
   </div>
 </template>

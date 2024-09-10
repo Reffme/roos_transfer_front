@@ -1,10 +1,11 @@
 <script setup lang="ts" generic="T">
   import { NFormItem, NSelect } from 'naive-ui'
   import { useDebounceFn } from '@vueuse/core'
-  import { onMounted, ref, toRef, watch } from 'vue'
+  import {computed, onMounted, ref, toRef, watch} from 'vue'
   import { RemoteOption } from '@/models/RemoteOption'
   import { useField } from 'vee-validate'
   import { isEqual } from 'radash'
+  import {FormValidationStatus} from "naive-ui/es/form/src/interface";
 
   type PropsSearchHandler = (
     query?: string,
@@ -16,13 +17,13 @@
     label?: string
     hideLabel?:boolean
     placeholder?: string
+    inputOptions?: RemoteOption<Record<string, unknown> | string>[]
     disabled?: boolean
     withoutFormItem?: boolean
     searchHandler: PropsSearchHandler
     valueField?: string
     lateInit?: boolean
     searchDependency?: unknown
-    uncontrolled?: boolean
     multiple?: boolean
   }>()
 
@@ -93,13 +94,17 @@
     emit('update:global-value', optionValue as T)
   }
 
-  const options = ref<RemoteOption<Record<string, unknown> | string>[]>([])
+  const options = ref<RemoteOption<Record<string, unknown> | string>[]>(props.inputOptions || [])
   const isLoading = ref(false)
 
   // Получаем начальные значения для select
   if (!props.lateInit) {
     handleSearch()
   }
+
+  const validationStatus = computed<FormValidationStatus | undefined>(() =>
+      errorMessage.value ? 'error' : undefined,
+  )
 
   watch(
     () => props.searchDependency,
@@ -126,12 +131,10 @@
   )
 
   const { value, errorMessage } = useField<T | string | string[] | null>(
-    toRef(props, 'name'),
+    props.name,
     undefined,
     {
       label: ' ',
-      controlled: !props.uncontrolled,
-      initialValue: props.initValue ? props.initValue : undefined,
     },
   )
 
@@ -148,41 +151,13 @@
 </script>
 
 <template>
-  <template v-if="withoutFormItem">
-  <NSelect
-      v-if="optionsFind"
-      class="bg-[#A0A0A0]"
-      v-model:value="value"
-      clearable
-      :options="options"
-      :loading="isLoading"
-      :fallback-option="fallbackOption"
-      filterable
-      remote
-      :placeholder="placeholder || label"
-      :disabled="disabled"
-      :multiple="multiple"
-      @search="handleSearch"
-      @update:value="handleUpdate"
-  />
-  <NSelect
-      v-else
-      remote
-      :loading="isLoading"
-      disabled
-      @search="handleSearch"
-  />
-  </template>
   <NFormItem
-      v-else
-      class="bg-[#A0A0A0]"
     :label="!hideLabel && label"
-    :validation-status="errorMessage ? 'error' : undefined"
+    :validation-status="validationStatus"
     :show-feedback="!!label"
   >
     <NSelect
       v-if="optionsFind"
-      class="bg-[#A0A0A0] px-2"
       v-model:value="value"
       clearable
       :options="options"

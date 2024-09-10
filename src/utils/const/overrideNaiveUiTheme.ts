@@ -7,14 +7,15 @@ const mainButtonColorHover = '#2C7CB0';
 export const overrideNaiveUiTheme: GlobalThemeOverrides = {
   common: {
     primaryColor: mainSuccessButtonColor,
-    borderRadius: '4px',
+    borderRadius: '10px',
     placeholderColor:'#A0A0A0',
     primaryColorHover: mainPassedButtonColor,
     primaryColorPressed: mainButtonColorHover,
   },
   Tabs: {
-    tabBorderRadius: '24px',
-    tabColorSegment: '#FDEC8BFF'
+    tabBorderRadius: '12px',
+    tabColorSegment: '#FFFFFF',
+
   },
   Button: {
     textColorHover: mainButtonColorHover,
@@ -76,7 +77,7 @@ export const overrideNaiveUiTheme: GlobalThemeOverrides = {
   Input: {
     heightLarge: '50px',
     fontSizeLarge: '18px',
-    borderRadius: '5px',
+    borderRadius: '10px',
     border: '1px solid #A0A0A0',
     borderFocus: '1px solid #A0A0A0',
     caretColor: mainSuccessButtonColor,
@@ -114,4 +115,6 @@ export const overrideNaiveUiTheme: GlobalThemeOverrides = {
   Statistic: {
     valueFontSize: '1rem',
   },
+  
 };
+

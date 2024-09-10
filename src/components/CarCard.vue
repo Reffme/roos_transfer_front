@@ -53,21 +53,21 @@ const cardClass = computed(() => {
 </script>
 
 <template>
-  <div class="h-16 w-[48%]">
-  <div @click="onSelect"
-       :class="cardClass"
-       :style="{borderColor: (selectedCar?.type === type)? '#2a2a2a':'#FDEC8BFF'}"
-       class="h-16  bg-[#FDEC8BFF] border-2 flex rounded-xl w-full"
-  >
-    <NImage preview-disabled :src="getImageUrl(imageMap[type])"/>
-    <div class="flex justify-center gap-1 flex-col">
-      <p class="pl-2">{{ type }}</p>
-      <div class="flex gap-2 flex-row">
-        <div class="flex gap-1 items-center"><User/> {{ passenger }}</div>
-        <div class="flex gap-1 items-center"><Briefcase/> {{ baggage }}</div>
+  <div class="h-16 w-[31%]">
+    <div @click="onSelect"
+         :class="cardClass"
+         :style="{borderColor: (selectedCar?.type === type)? '#000000':'#e0e0e0'}"
+         class="px-1 py-2 h-16  bg-[#FFFFFF] border-2 flex rounded-xl w-full"
+    >
+      <NImage preview-disabled :src="getImageUrl(imageMap[type])"/>
+      <div class="flex justify-center gap-1 flex-col">
+        <p class="pl-2">{{ type }}</p>
+        <div class="flex gap-2.5 flex-row">
+          <div class="flex gap-1 items-center"><User/> {{ passenger }}</div>
+          <div class="flex gap-1 items-center"><Briefcase/> {{ baggage }}</div>
+        </div>
       </div>
     </div>
-  </div>
-  <div v-show="disabled" class="h-16 relative top-[-64px] rounded-xl bg-[#605D5D54]"/>
+    <div v-show="disabled" class="h-16 relative top-[-64px] rounded-xl bg-[#605D5D54]"/>
   </div>
 </template>

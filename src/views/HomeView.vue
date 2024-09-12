@@ -141,7 +141,7 @@ const onConfirmClickHandler = handleSubmit(
     <!-- Контейнер формы, выровненный по центру -->
     <main class="flex-grow flex justify-center items-center p-4">
       <form
-        class="w-[750px] flex flex-col justify-between h-[800px] pt-4 max-md:overflow-y-scroll rounded-xl shadow-custom p-6 custom-scrollbar"
+        class="w-[750px] flex flex-col justify-between max-md:h-full h-[800px] pt-4 max-md:overflow-y-scroll rounded-xl shadow-custom p-6 custom-scrollbar"
         @submit.prevent="onConfirmClickHandler"
       >
         <div class="flex flex-col gap-2 max-md:overflow-y-scroll">
@@ -171,7 +171,7 @@ const onConfirmClickHandler = handleSubmit(
             <div class="max-md:hidden flex w-full">
             <NTooltip trigger="hover">
               <template #trigger>
-                <div class="flex items-center justify-evenly w-full">
+                <div class="flex items-center w-full">
                   <NCheckbox v-model:checked="isExpressDelivery" class="flex px-2 w-[165px] flex-row py-1">Экспресс поездка</NCheckbox>
                   <Info class="w-1/4"/>
                 </div>

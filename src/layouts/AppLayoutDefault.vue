@@ -20,7 +20,7 @@
         :content-style="{ display: 'flex' }"
       >
         <div
-          class="app-content flex flex-1 flex-col overflow-hidden w-full h-full bg-appLayoutDefaultBackground-light"
+          class="app-content flex flex-1 flex-col overflow-y-visible w-full h-full bg-appLayoutDefaultBackground-light"
         >
           <router-view></router-view>
         </div>

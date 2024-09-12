@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import BaseFormInput from '@/components/base/BaseFormInput.vue'
-import {NButton, NCheckbox, useMessage} from 'naive-ui'
+import {NButton, NCheckbox, NTooltip, useDialog, useMessage} from 'naive-ui'
 import BaseFormDatePicker from '@/components/base/BaseFormDatePicker.vue'
 import PathInput from '@/components/PathInput.vue'
 import {useForm} from 'vee-validate'
@@ -9,6 +9,7 @@ import type {DeliveryRequest} from '@/models/DeliveryRequest'
 import type {ChildSeatInfo, TransferRequest} from '@/models/TransferRequest'
 import {computed, ref} from 'vue'
 import type {Car} from '@/models/CarType'
+import { Info } from 'lucide-vue-next';
 import {useTransferStore} from "@/stores/transfer";
 import {useDeliveryStore} from "@/stores/delivery";
 import FormTabs from "@/components/FormTabs.vue";
@@ -18,6 +19,7 @@ import ModalChildSeat from "@/components/ModalChildSeat.vue";
 import {useModalsStore} from "@/stores/modals";
 import {ModalName} from "@/models/ModalName";
 import BaseFormInputNumber from "@/components/base/BaseFormInputNumber.vue";
+import {covenantText, expressInfoText} from "@/utils/const/constText";
 
 type ValidationSchema = Record<keyof DeliveryRequest & TransferRequest, ValidationRule>
 const currentTab = ref('transfer')
@@ -58,6 +60,7 @@ const withTrailer = ref<boolean>()
 const { createTransferOrder } = useTransferStore()
 const { createDeliveryOrder } = useDeliveryStore()
 const {open} = useModalsStore()
+const dialog = useDialog()
 const message = useMessage()
 
 const fromOptions = ref<RemoteOption<Record<string, unknown> | string>[]>([])
@@ -72,7 +75,7 @@ const onSubmitModal = (data: ChildSeatInfo) => {
 
 const sendMessage = (type: 1 | 2| 3) => {
   const messages: Record<1|2|3, () => void> = {
-    1: () => message.error('Что-то пошло не так'),
+    1: () => message.error('Вы уже оформили заявку'),
     2: () => message.warning('Выберите транспорт'),
     3: () => message.success('Успешно оформлено')
   }
@@ -89,32 +92,40 @@ const onConfirmClickHandler = handleSubmit(
     async (
         values) => {
       const data = {...values, isImmediate: isImmediate.value, isExpressDelivery: isExpressDelivery.value}
-      try {
-        if (currentTab.value === 'delivery') {
-          await createDeliveryOrder({
-            ...data,
-            withTrailer: withTrailer.value
-          })
-        } else {
-          if (!selectedCar.value){
-            sendMessage(2)
-            return
-          }
-          await createTransferOrder({
-            ...data,
-            carType: selectedCar.value.type,
-            childSeats: {
-              boosterSeatCount: boosterSeatCount.value,
-              childSeatCount: childSeatCount.value,
-              infantSeatCount: infantSeatCount.value,
-              personSeatAvailable: personSeatAvailable.value,
+        dialog.create({
+          type: "info",
+          content: covenantText,
+          positiveText: 'Я соглашаюсь',
+          negativeText: 'Я не соглашаюсь',
+          onPositiveClick: async () => {
+            try {
+            if (currentTab.value === 'delivery') {
+              await createDeliveryOrder({
+                ...data,
+                withTrailer: withTrailer.value
+              })
+            } else {
+              if (!selectedCar.value){
+                sendMessage(2)
+                return
+              }
+              await createTransferOrder({
+                ...data,
+                carType: selectedCar.value.type,
+                childSeats: {
+                  boosterSeatCount: boosterSeatCount.value,
+                  childSeatCount: childSeatCount.value,
+                  infantSeatCount: infantSeatCount.value,
+                  personSeatAvailable: personSeatAvailable.value,
+                }
+              })
             }
-          })
-        }
-        sendMessage(3)
-      } catch {
-        sendMessage(1)
+            sendMessage(3)
+          } catch {
+            sendMessage(1)
       }
+          },
+        })
     })
 
 
@@ -144,11 +155,30 @@ const onConfirmClickHandler = handleSubmit(
           <div class="flex">
             <NCheckbox v-model:checked="isImmediate" class="max-md:hidden px-2 w-2/3 py-1">Как можно скорее</NCheckbox>
             <BaseFormDatePicker name="date" label="Дата отправки" class="w-full"/>
-            <BaseFormTimePicker name="time" label="Дата отправки" class="w-full" />
+            <BaseFormTimePicker name="time" label="Время отправки" class="w-full" />
           </div>
-          <div class="flex">
+          <div class="flex max-md:flex-col max-md:items-start max-md:w-full">
             <NCheckbox v-model:checked="isImmediate" class="max-md:flex px-2 hidden w-full flex-row py-1">Как можно скорее</NCheckbox>
-            <NCheckbox v-model:checked="isExpressDelivery" class="flex px-2 w-full flex-row py-1">Экспресс доставка</NCheckbox>
+             <div class="max-md:flex flex-col hidden"><NTooltip trigger="click">
+              <template #trigger>
+                <div class="flex items-center justify-evenly w-full">
+                  <NCheckbox v-model:checked="isExpressDelivery" class="flex px-2 w-[185px] w flex-row py-1">Экспресс поездка</NCheckbox>
+                  <Info class="w-1/4"/>
+                </div>
+              </template>
+              <div class="flex w-60">{{expressInfoText}}</div>
+            </NTooltip></div>
+            <div class="max-md:hidden flex w-full">
+            <NTooltip trigger="hover">
+              <template #trigger>
+                <div class="flex items-center justify-evenly w-full">
+                  <NCheckbox v-model:checked="isExpressDelivery" class="flex px-2 w-[165px] flex-row py-1">Экспресс поездка</NCheckbox>
+                  <Info class="w-1/4"/>
+                </div>
+              </template>
+              <div class="flex w-96">{{expressInfoText}}</div>
+            </NTooltip>
+            </div>
             <NButton v-if="currentTab === 'transfer'" type="success" @click="open(ModalName.ChildSeats)" class="w-2/3 max-md:hidden">Добавить детские кресла</NButton>
           </div>
           <NCheckbox v-show="currentTab === 'delivery'" v-model:checked="withTrailer" class="flex px-2 w-full flex-row py-1">Перевозка груза с прицепом</NCheckbox>

@@ -25,7 +25,7 @@ const onUpdatePersonCount = (value: number) => {
       <div class="py-2">
       <slot/>
         <div class="flex max-md:flex-col">
-        <BaseFormInput hide-label class="w-full" name="tableName" label="Имя" />
+        <BaseFormInput hide-label class="w-full" name="tableName" label="Имя для таблички (необязательно)" />
       <BaseFormInputNumber
           name="personCount"
           class="w-full"

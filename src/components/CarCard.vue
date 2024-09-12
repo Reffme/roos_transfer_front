@@ -27,7 +27,7 @@ const selectedCar = defineModel<Car>('selectedCar')
 
 
 const getImageUrl = (name:string) => {
-  return new URL(`../assets/${name}`,`${import.meta.url}`)
+  return new URL(`../../public/icons/${name}`,`${import.meta.url}`)
 }
 
 const onSelect = () => {
@@ -52,9 +52,6 @@ const cardClass = computed(() => {
   }
   return  resultClass
 })
-
-const a ='rgba(96,93,93,0.13)'
-
 </script>
 
 <template>

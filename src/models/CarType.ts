@@ -13,7 +13,7 @@ export enum CarType {
     VIP="VIP",
     SUV="Внедорожник",
     Minivan="Минивэн",
-    CompactMinivan="компакт вэн",
+    CompactMinivan="Компактвэн",
     Minibus="Микроавтобус",
     Bus="Автобус",
 }

@@ -16,11 +16,11 @@
   <NLayout class="h-full w-full" :content-style="layoutContentStyle">
     <NLayout has-sider>
       <NLayoutContent
-        class="flex flex-col"
+        class="flex flex-col pb-4"
         :content-style="{ display: 'flex' }"
       >
         <div
-          class="app-content flex flex-1 flex-col overflow-y-visible w-full h-full bg-appLayoutDefaultBackground-light"
+          class="app-content flex flex-1 flex-col overflow-y-visible w-full h-full bg-appLayoutDefaultBackground-light overflow-x-hidden"
         >
           <router-view></router-view>
         </div>

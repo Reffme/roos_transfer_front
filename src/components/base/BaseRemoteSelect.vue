@@ -1,10 +1,9 @@
 <script setup lang="ts" generic="T">
   import { NFormItem, NSelect } from 'naive-ui'
   import { useDebounceFn } from '@vueuse/core'
-  import {computed, onMounted, ref, toRef, watch} from 'vue'
+  import {computed, onMounted, ref, watch} from 'vue'
   import { RemoteOption } from '@/models/RemoteOption'
   import { useField } from 'vee-validate'
-  import { isEqual } from 'radash'
   import {FormValidationStatus} from "naive-ui/es/form/src/interface";
 
   type PropsSearchHandler = (
@@ -32,7 +31,9 @@
     'update:global-value': [value: T]
   }>()
   const optionsFind = ref(false)
+  const queryArr = ref<RemoteOption<Record<string, unknown> | string>[]>([])
   const handleSearch = useDebounceFn(async (query?: string) => {
+    value.value = query || null
     if (isLoading.value) return
     isLoading.value = true
     let response: RemoteOption<Record<string, unknown> | string>[] = []
@@ -45,26 +46,6 @@
     options.value = response
     isLoading.value = false
   }, 400)
-
-  const fallbackOption = (value: unknown) => {
-    let fullOption
-    if (props.valueField) {
-      fullOption = options.value.find(
-        (option) =>
-          typeof option.value === 'object' &&
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          option.value[props.valueField] === value,
-      )
-    }
-    if (fullOption) return { ...fullOption }
-
-    const label = options.value.find((option) => isEqual(option.value, value))
-    return {
-      label: label && label.label,
-      value: value,
-    }
-  }
 
   // TODO: Плохо работает если valueField это array, нужно потыкать и пофиксить
   const handleUpdate = (
@@ -157,12 +138,10 @@
     :show-feedback="!!label"
   >
     <NSelect
-      v-if="optionsFind"
-      v-model:value="value"
+      :value="value"
       clearable
-      :options="options"
+      :options="[...options,...queryArr]"
       :loading="isLoading"
-      :fallback-option="fallbackOption"
       filterable
       remote
       :placeholder="placeholder || label"
@@ -170,13 +149,6 @@
       :multiple="multiple"
       @search="handleSearch"
       @update:value="handleUpdate"
-    />
-    <NSelect
-      v-else
-      remote
-      :loading="isLoading"
-      disabled
-      @search="handleSearch"
     />
     <template #feedback>
       {{ errorMessage }}

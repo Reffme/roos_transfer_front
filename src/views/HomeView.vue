@@ -57,6 +57,8 @@ const withTrailer = ref<boolean>()
   }
 }))
 
+
+
 const { createTransferOrder } = useTransferStore()
 const { createDeliveryOrder } = useDeliveryStore()
 const {open} = useModalsStore()
@@ -91,7 +93,7 @@ const { handleSubmit } = useForm<DeliveryRequest & TransferRequest>({
 const onConfirmClickHandler = handleSubmit(
     async (
         values) => {
-      const data = {...values, isImmediate: isImmediate.value, isExpressDelivery: isExpressDelivery.value}
+      const data = {...values, isImmediate: isImmediate.value, isExpressDelivery: isExpressDelivery.value, phoneNumber: values.phoneNumber.length > 12? values.phoneNumber.slice(0,-1): values.phoneNumber}
         dialog.create({
           type: "info",
           content: covenantText,
@@ -133,15 +135,15 @@ const onConfirmClickHandler = handleSubmit(
 
 <template>
   <div class="flex flex-col w-full h-screen">
-    <header class="w-full h-20 flex items-center justify-center">
+    <header class="w-full h-24 p-2 flex items-center justify-center">
       <h1 class="text-3xl font-bold">RooS Transfer</h1>
     </header>
 
 
     <!-- Контейнер формы, выровненный по центру -->
-    <main class="flex-grow flex justify-center items-center p-4">
+    <main class="flex-grow max-md:w-full flex justify-center items-center max-md:px-0 p-4">
       <form
-        class="w-[750px] flex flex-col justify-between max-md:h-full h-[800px] pt-4 max-md:overflow-y-scroll rounded-xl shadow-custom p-6 custom-scrollbar"
+        class="w-[750px] max-md:w-full flex flex-col justify-between max-md:h-full h-[800px] pt-4 max-md:overflow-y-scroll rounded-xl shadow-custom p-6 custom-scrollbar"
         @submit.prevent="onConfirmClickHandler"
       >
         <div class="flex flex-col gap-2 max-md:overflow-y-scroll">
@@ -154,8 +156,8 @@ const onConfirmClickHandler = handleSubmit(
           />
           <div class="flex">
             <NCheckbox v-model:checked="isImmediate" class="max-md:hidden px-2 w-2/3 py-1">Как можно скорее</NCheckbox>
-            <BaseFormDatePicker name="date" label="Дата отправки" class="w-full"/>
-            <BaseFormTimePicker name="time" label="Время отправки" class="w-full" />
+            <BaseFormDatePicker :disabled="isImmediate" name="date" label="Дата отправки" class="w-full"/>
+            <BaseFormTimePicker :disabled="isImmediate" name="time" label="Время отправки" class="w-full" />
           </div>
           <div class="flex max-md:flex-col max-md:items-start max-md:w-full">
             <NCheckbox v-model:checked="isImmediate" class="max-md:flex px-2 hidden w-full flex-row py-1">Как можно скорее</NCheckbox>

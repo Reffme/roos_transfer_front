@@ -19,6 +19,9 @@
   const options = defineModel<RemoteOption<Record<string, unknown> | string>[]>('options')
 
   const searchHandler = async (query?: string) => {
+    if (!query){
+      return []
+    }
     options.value = (await getAddressSuggestions(query)).map((item) => ({
       label: item.value,
       value: item.value,

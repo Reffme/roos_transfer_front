@@ -15,8 +15,8 @@ defineRule('phoneNumber', (value: string) => {
     return true
   }
 
-  if (value.length <= 12) {
-    return 'Номер телефона должен содержать 12 символов'
+  if (value.length <= 11) {
+    return 'Номер телефона должен содержать 11 символов'
   }
 
   return true

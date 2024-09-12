@@ -9,6 +9,7 @@ const props = defineProps<{
   placeholder?: string
   disabled?: boolean
   min?: number
+  initValues?: number
   max?: number
 }>()
 
@@ -21,7 +22,7 @@ const { value, errorMessage, handleChange } = useField<
     number | undefined
 >(toRef(props, 'name'), undefined, {
   label: ' ',
-  initialValue: 0
+  initialValue: props.initValues
 })
 
 const errorStatus = computed<FormValidationStatus | undefined>(() => {
@@ -54,7 +55,7 @@ value.value && (value.value = Number(value.value))
         class="w-full"
         :placeholder="placeholder"
         :disabled="disabled"
-        :min="min"
+        :min="0"
         :max="max"
         clearable
         @update:value="handleUpdateInput"

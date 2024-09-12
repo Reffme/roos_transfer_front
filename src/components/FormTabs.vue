@@ -6,8 +6,9 @@ import CarCard from "@/components/CarCard.vue";
 import {ref} from "vue";
 import type {Car} from "@/models/CarType";
 import {NTabPane, NTabs} from "naive-ui";
+import BaseFormInput from "@/components/base/BaseFormInput.vue";
 
-const selectedCar = ref<Car>()
+const selectedCar = defineModel<Car>('selectedCar')
 const personCount = ref(0)
 const currentTab = defineModel('çurrentTab')
 const onUpdatePersonCount = (value: number) => {
@@ -23,11 +24,15 @@ const onUpdatePersonCount = (value: number) => {
     <NTabPane display-directive="if" name="transfer" tab="ПОЕЗДКА">
       <div class="py-2">
       <slot/>
+        <div class="flex max-md:flex-col">
+        <BaseFormInput hide-label class="w-full" name="tableName" label="Имя" />
       <BaseFormInputNumber
           name="personCount"
+          class="w-full"
           placeholder="Количество пассажиров"
           @update:value="onUpdatePersonCount"
       />
+        </div>
       <div class="flex flex-wrap gap-2 justify-center">
         <CarCard
             v-for="car in carsOptions"

@@ -1,9 +1,10 @@
 export  interface DeliveryRequest {
     comment: string
-    date: string
+    date?: string
     from: string
-    isImmediate: boolean
+    isImmediate?: boolean
     phoneNumber: string
-    time: string
+    time?: string
     to: string
+    withTrailer?: boolean
 }

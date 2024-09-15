@@ -29,6 +29,7 @@ const onUpdatePersonCount = (value: number) => {
       <BaseFormInputNumber
           name="personCount"
           class="w-full"
+          :max="50"
           placeholder="Количество пассажиров"
           @update:value="onUpdatePersonCount"
       />

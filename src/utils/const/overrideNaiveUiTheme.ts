@@ -67,7 +67,7 @@ export const overrideNaiveUiTheme: GlobalThemeOverrides = {
     rippleColorSuccess: mainSuccessButtonColor,
     caretColor: mainSuccessButtonColor,
     loadingColor: mainSuccessButtonColor,
-    borderSuccess: `1px solid ${mainSuccessButtonColor}`,
+    borderSuccess: `1px solid ${mainButtonColorHover}`,
     borderDisabledSuccess: `1px solid ${mainSuccessButtonColor}`,
     borderHoverSuccess: `1px solid ${mainButtonColorHover}`,
     borderFocusSuccess: `1px solid ${mainButtonColorHover}`,
@@ -83,6 +83,9 @@ export const overrideNaiveUiTheme: GlobalThemeOverrides = {
     caretColor: mainSuccessButtonColor,
     loadingColor: mainSuccessButtonColor,
     borderHover: mainButtonColorHover,
+  },
+  Card: {
+    borderColor: '#282828D7',
   },
   Form: {
     labelHeightMedium: '0px',

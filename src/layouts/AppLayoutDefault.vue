@@ -2,7 +2,6 @@
   import {
     NLayout,
     NLayoutContent,
-    NBackTop,
   } from 'naive-ui'
   import { CSSProperties } from 'vue'
   const layoutContentStyle: CSSProperties = {
@@ -16,7 +15,7 @@
   <NLayout class="h-full w-full" :content-style="layoutContentStyle">
     <NLayout has-sider>
       <NLayoutContent
-        class="flex flex-col pb-4"
+        class="flex flex-col"
         :content-style="{ display: 'flex' }"
       >
         <div
@@ -24,7 +23,6 @@
         >
           <router-view></router-view>
         </div>
-        <NBackTop :bottom="80" />
       </NLayoutContent>
     </NLayout>
   </NLayout>

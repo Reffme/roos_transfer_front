@@ -35,6 +35,7 @@ const handleConfirm = () => {
     <NTimePicker
         v-model:formatted-value="formattedValue"
         class="w-full"
+        format="HH:mm"
         :disabled="disabled"
         :placeholder="placeholder || label"
         :on-confirm="handleConfirm"

@@ -3,7 +3,7 @@
 import {ModalName} from "@/models/ModalName";
 import {covenantText, expressInfoText} from "@/utils/const/constText";
 import type {DeliveryRequest} from "@/models/DeliveryRequest";
-import type {ChildSeatInfo, TransferRequest} from "@/models/TransferRequest";
+import type {AdditionalServicesInfo, TransferRequest} from "@/models/TransferRequest";
 import type {ValidationRule} from "@/models/ValidationRule";
 import {computed, ref} from "vue";
 import type {Car} from "@/models/CarType";
@@ -33,6 +33,9 @@ const childSeatCount = ref<number>()
 const infantSeatCount = ref<number>()
 const personSeatAvailable = ref<boolean>()
 const withTrailer = ref<boolean>()
+const dogCarrierCount = ref<number>()
+const dogMatCount = ref<number>()
+const ownDogCarrier = ref<boolean>()
 const schema = computed<Partial<ValidationSchema>>(() => ({
   from: {
     required: true
@@ -69,18 +72,21 @@ const message = useMessage()
 const fromOptions = ref<RemoteOption<Record<string, unknown> | string>[]>([])
 const toOptions = ref<RemoteOption<Record<string, unknown> | string>[]>([])
 
-const onSubmitModal = (data: ChildSeatInfo) => {
+const onSubmitModal = (data: AdditionalServicesInfo) => {
   boosterSeatCount.value = data.boosterSeatCount
   childSeatCount.value = data.childSeatCount
   infantSeatCount.value = data.infantSeatCount
   personSeatAvailable.value = data.personSeatAvailable
+  dogCarrierCount.value = data.dogCarrierCount
+  dogMatCount.value = data.dogMatCount
+  ownDogCarrier.value = data.ownDogCarrier
 }
 
-const sendMessage = (type: 1 | 2| 3) => {
+const sendMessage = (type: 1 | 2| 3, text?: string) => {
   const messages: Record<1|2|3, () => void> = {
-    1: () => message.error('Вы уже оформили заявку'),
-    2: () => message.warning('Выберите транспорт'),
-    3: () => message.success('Успешно оформлено')
+    1: () => message.error(text || 'Что-то пошло не так'),
+    2: () => message.warning(text || 'Выберите транспорт'),
+    3: () => message.success(text || 'Успешно оформлено')
   }
   messages[type]()
 
@@ -90,6 +96,12 @@ const sendMessage = (type: 1 | 2| 3) => {
 const { handleSubmit } = useForm<DeliveryRequest & TransferRequest>({
   validationSchema: schema
 })
+
+const onUpdateImmediateState = (status: boolean) => {
+  if (status){
+    sendMessage(3, 'Водитель сможет прибыть в течении часа')
+  }
+}
 
 const onConfirmClickHandler = handleSubmit(
     async (
@@ -115,17 +127,21 @@ const onConfirmClickHandler = handleSubmit(
               await createTransferOrder({
                 ...data,
                 carType: selectedCar.value.type,
-                childSeats: {
+                additionalServices: {
                   boosterSeatCount: boosterSeatCount.value,
                   childSeatCount: childSeatCount.value,
                   infantSeatCount: infantSeatCount.value,
                   personSeatAvailable: personSeatAvailable.value,
+                  ownDogCarrier: ownDogCarrier.value,
+                  dogMatCount: dogMatCount.value,
+                  dogCarrierCount: dogCarrierCount.value,
                 }
               })
             }
             sendMessage(3)
-          } catch {
-            sendMessage(1)
+          } catch(error) {
+            const e = error as {status: number}
+            sendMessage(1, (e.status === 429 && 'Заявка уже оформлена') as string)
           }
         },
       })
@@ -147,12 +163,12 @@ const onConfirmClickHandler = handleSubmit(
             get-unmasked-value
         />
         <div class="flex">
-          <NCheckbox v-model:checked="isImmediate" class="max-md:hidden px-2 w-2/3 py-1">Как можно скорее</NCheckbox>
+          <NCheckbox v-model:checked="isImmediate" @update-checked="onUpdateImmediateState" class="max-md:hidden px-2 w-2/3 py-1">Как можно скорее</NCheckbox>
           <BaseFormDatePicker :disabled="isImmediate" name="date" label="Дата отправки" class="w-full"/>
           <BaseFormTimePicker :disabled="isImmediate" name="time" label="Время отправки" class="w-full" />
         </div>
         <div class="flex max-md:flex-col max-md:items-start max-md:w-full">
-          <NCheckbox v-model:checked="isImmediate" class="max-md:flex px-2 hidden w-full flex-row py-1">Как можно скорее</NCheckbox>
+          <NCheckbox v-model:checked="isImmediate" @update-checked="onUpdateImmediateState" class="max-md:flex px-2 hidden w-full flex-row py-1">Как можно скорее</NCheckbox>
           <div class="max-md:flex flex-col hidden"><NTooltip trigger="click">
             <template #trigger>
               <div class="flex items-center justify-evenly w-full">
@@ -173,7 +189,7 @@ const onConfirmClickHandler = handleSubmit(
               <div class="flex w-96">{{expressInfoText}}</div>
             </NTooltip>
           </div>
-          <NButton v-if="currentTab === 'transfer'" type="primary" @click="open(ModalName.ChildSeats)" class="w-2/3 max-md:hidden">Добавить детские кресла</NButton>
+          <NButton v-if="currentTab === 'transfer'" type="primary" @click="open(ModalName.ChildSeats)" class="w-2/3 max-md:hidden">Дополнительные услуги</NButton>
         </div>
         <NCheckbox v-show="currentTab === 'delivery'" v-model:checked="withTrailer" class="flex px-2 w-full flex-row py-1">Перевозка груза с прицепом</NCheckbox>
         <div v-show="currentTab === 'transfer'" class="max-md:flex flex-col hidden">
@@ -181,6 +197,9 @@ const onConfirmClickHandler = handleSubmit(
           <BaseFormInputNumber :init-values="childSeatCount" @update:value="childSeatCount = $event" name="childSeatCount" class="w-full" placeholder="Автокресла" />
           <BaseFormInputNumber :init-values="infantSeatCount" @update:value="infantSeatCount = $event" name="infantSeatCount" class="w-full" placeholder="Автолюльки для младенцев" />
           <NCheckbox v-model:checked="personSeatAvailable" class="flex px-2 w-full flex-row">Есть свое детское кресло</NCheckbox>
+          <BaseFormInputNumber :init-values="dogCarrierCount" @update:value="dogCarrierCount = $event" name="dogCarrierCount" class="w-full" placeholder="Переноски для собак" />
+          <BaseFormInputNumber :init-values="dogMatCount" @update:value="dogMatCount = $event" name="dogMatCount" class="w-full" placeholder="Подстилки для собак" />
+          <NCheckbox v-model:checked="ownDogCarrier" class="flex px-2 w-full flex-row">Есть своя переноска для собаки</NCheckbox>
         </div>
         <BaseFormInput hide-label name="comment" label="Комментарий" />
       </div>
@@ -191,6 +210,9 @@ const onConfirmClickHandler = handleSubmit(
         :childSeatCount="childSeatCount"
         :infantSeatCount="infantSeatCount"
         :personSeatAvailable="personSeatAvailable"
+        :dogCarrierCount="dogCarrierCount"
+        :dogMatCount="dogMatCount"
+        :ownDogCarrier="ownDogCarrier"
         @onSubmit="onSubmitModal"
     />
   </div>

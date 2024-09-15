@@ -1,6 +1,6 @@
 export interface TransferRequest {
     carType: string
-    childSeats?: ChildSeatInfo
+    additionalServices?: AdditionalServicesInfo
     comment?: string
     date: string
     from: string
@@ -13,9 +13,12 @@ export interface TransferRequest {
     to: string
 }
 
-export interface ChildSeatInfo {
+export interface AdditionalServicesInfo {
     boosterSeatCount?: number
     childSeatCount?: number
     infantSeatCount?: number
     personSeatAvailable?: boolean
+    dogCarrierCount?: number
+    dogMatCount?: number
+    ownDogCarrier?: boolean
 }

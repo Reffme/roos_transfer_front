@@ -11,9 +11,9 @@ import {NCard} from "naive-ui";
 <template>
   <div class="flex flex-col w-full h-[calc(100vh-97px)]">
     <div class="flex h-full max-md:flex-col flex-row">
-      <div class="w-[55%] max-md:hidden overflow-hidden bg-[#2C7CB0] rounded-r-2xl flex flex-col items-center  skew-x-[-12deg] ml-[-6%] mr-[2%] h-full ">
-        <h1 class="text-6xl h-40 w-[850px] pr-[650px] items-center flex justify-center skew-x-12 text-[white]">О нас</h1>
-        <NCard class="skew-x-12 w-[700px] bg-[#282828D7] text-[white] flex flex-col">
+      <div class="w-[50%] max-md:hidden overflow-hidden bg-[#2C7CB0] pl-6 rounded-r-2xl flex flex-col items-center  skew-x-[-12deg] ml-[-7vw] mr-[2%] h-full ">
+        <h1 class="text-6xl h-40 w-[850px] pr-[605px] items-center flex justify-center skew-x-12 text-[white]">О нас</h1>
+        <NCard class="skew-x-12 w-[calc(40%+300px)] bg-[#282828D7] text-[white] flex flex-col">
           <div class="text-2xl mb-[20px]">Мы — транспортная компания, специализирующаяся на пассажирских перевозках и доставке грузов, не запрещенных на территории Российской Федерации. Предлагаем широкий спектр услуг, включая трансферы в аэропорты и из аэропортов, поездки с детьми, а также поездки по городу и межгород.</div>
           <div class="text-2xl mb-[20px]">Наш автопарк состоит из современных, чистых и регулярно обслуживаемых автомобилей, которые соответствуют всем стандартам безопасности и комфорта. Водители — профессионалы с опытом, проверенные на наличие всех необходимых документов и лицензий.</div>
           <div class="text-2xl">Мы гарантируем комфортные поездки и высокое качество обслуживания для каждого клиента.</div>

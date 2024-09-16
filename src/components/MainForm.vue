@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import {ModalName} from "@/models/ModalName";
-import {covenantText, expressInfoText} from "@/utils/const/constText";
+import {covenantText, expressInfoText, isImmediateText, withTrailerText} from "@/utils/const/constText";
 import type {DeliveryRequest} from "@/models/DeliveryRequest";
 import type {AdditionalServicesInfo, TransferRequest} from "@/models/TransferRequest";
 import type {ValidationRule} from "@/models/ValidationRule";
@@ -151,7 +151,7 @@ const onConfirmClickHandler = handleSubmit(
 <template>
   <div class="flex-grow max-md:w-full flex justify-center items-start max-md:px-0">
     <form
-        class="w-[750px] max-md:w-full flex flex-col justify-between max-md:h-full h-[800px] max-md:overflow-y-scroll rounded-xl shadow-custom p-6 custom-scrollbar"
+        class="w-[750px] max-md:w-full max-md:rounded-none flex flex-col justify-between max-md:h-full h-[820px] max-md:overflow-y-scroll rounded-xl shadow-custom p-6 custom-scrollbar"
         @submit.prevent="onConfirmClickHandler"
     >
       <div class="flex flex-col gap-2 max-md:overflow-y-scroll">
@@ -163,13 +163,34 @@ const onConfirmClickHandler = handleSubmit(
             get-unmasked-value
         />
         <div class="flex">
-          <NCheckbox v-model:checked="isImmediate" @update-checked="onUpdateImmediateState" class="max-md:hidden px-2 w-2/3 py-1">Как можно скорее</NCheckbox>
+          <div class="flex max-md:hidden w-full">
+            <NTooltip trigger="hover">
+              <template #trigger>
+                <div class="flex w-full">
+                   <NCheckbox v-model:checked="isImmediate" @update-checked="onUpdateImmediateState" class="max-md:hidden pl-2 w-full">Как можно скорее</NCheckbox>
+                  <Info class="w-1/4"/>
+                </div>
+              </template>
+              <div class="flex w-60">{{isImmediateText}}</div>
+            </NTooltip>
+          </div>
           <BaseFormDatePicker :disabled="isImmediate" name="date" label="Дата отправки" class="w-full"/>
           <BaseFormTimePicker :disabled="isImmediate" name="time" label="Время отправки" class="w-full" />
         </div>
         <div class="flex max-md:flex-col max-md:items-start max-md:w-full">
-          <NCheckbox v-model:checked="isImmediate" @update-checked="onUpdateImmediateState" class="max-md:flex px-2 hidden w-full flex-row py-1">Как можно скорее</NCheckbox>
-          <div class="max-md:flex flex-col hidden"><NTooltip trigger="click">
+          <div class="max-md:flex hidden w-full flex-row">
+            <NTooltip trigger="click">
+              <template #trigger>
+                <div class="flex">
+                <NCheckbox v-model:checked="isImmediate" @update-checked="onUpdateImmediateState" class="pl-2 w-[185px] flex-row py-1">Как можно скорее</NCheckbox>
+                <Info class="w-1/4"/>
+                </div>
+              </template>
+              <div class="flex w-60">{{isImmediateText}}</div>
+            </NTooltip>
+          </div>
+          <div class="max-md:flex flex-col hidden">
+            <NTooltip trigger="click">
             <template #trigger>
               <div class="flex items-center justify-evenly w-full">
                 <NCheckbox v-model:checked="isExpressDelivery" class="flex px-2 w-[185px] w flex-row py-1">Экспресс поездка</NCheckbox>
@@ -178,20 +199,41 @@ const onConfirmClickHandler = handleSubmit(
             </template>
             <div class="flex w-60">{{expressInfoText}}</div>
           </NTooltip></div>
-          <div class="max-md:hidden flex w-full">
+          <div class="max-md:hidden flex">
             <NTooltip trigger="hover">
               <template #trigger>
-                <div class="flex items-center w-full">
-                  <NCheckbox v-model:checked="isExpressDelivery" class="flex px-2 w-[165px] flex-row py-1">Экспресс поездка</NCheckbox>
+                <div class="flex items-center">
+                  <NCheckbox v-model:checked="isExpressDelivery" class="flex px-2 w-[205px] flex-row py-1">Экспресс поездка</NCheckbox>
                   <Info class="w-1/4"/>
                 </div>
               </template>
-              <div class="flex w-96">{{expressInfoText}}</div>
+              <div class="flex w-60">{{expressInfoText}}</div>
             </NTooltip>
           </div>
           <NButton v-if="currentTab === 'transfer'" type="primary" @click="open(ModalName.ChildSeats)" class="w-2/3 max-md:hidden">Дополнительные услуги</NButton>
         </div>
-        <NCheckbox v-show="currentTab === 'delivery'" v-model:checked="withTrailer" class="flex px-2 w-full flex-row py-1">Перевозка груза с прицепом</NCheckbox>
+        <div v-show="currentTab === 'delivery'" class="flex items-center w-full">
+          <div class="max-md:flex flex-col hidden"><NTooltip trigger="click">
+            <template #trigger>
+              <div class="flex items-center justify-evenly w-full">
+                <NCheckbox v-model:checked="isExpressDelivery" class="flex px-2 w-[185px] w flex-row py-1">Перевозка груза с прицепом</NCheckbox>
+                <Info class="w-1/4"/>
+              </div>
+            </template>
+            <div class="flex w-60">{{withTrailerText}}</div>
+          </NTooltip></div>
+          <div class="max-md:hidden flex w-full">
+          <NTooltip trigger="hover">
+            <template #trigger>
+              <div class="flex items-center">
+                <NCheckbox v-model:checked="withTrailer" class="flex px-2  w-[275px] flex-row py-1">Перевозка груза с прицепом</NCheckbox>
+                <Info class="w-1/4"/>
+              </div>
+            </template>
+            <div class="flex w-96">{{withTrailerText}}</div>
+          </NTooltip>
+          </div>
+        </div>
         <div v-show="currentTab === 'transfer'" class="max-md:flex flex-col hidden">
           <BaseFormInputNumber :init-values="boosterSeatCount" @update:value="boosterSeatCount = $event" name="boosterSeatCount" class="w-full" placeholder="Бустеры" />
           <BaseFormInputNumber :init-values="childSeatCount" @update:value="childSeatCount = $event" name="childSeatCount" class="w-full" placeholder="Автокресла" />
@@ -201,7 +243,7 @@ const onConfirmClickHandler = handleSubmit(
           <BaseFormInputNumber :init-values="dogMatCount" @update:value="dogMatCount = $event" name="dogMatCount" class="w-full" placeholder="Подстилки для собак" />
           <NCheckbox v-model:checked="ownDogCarrier" class="flex px-2 w-full flex-row">Есть своя переноска для собаки</NCheckbox>
         </div>
-        <BaseFormInput hide-label name="comment" label="Комментарий" />
+        <BaseFormInput hide-label name="comment" class="mt-4" label="Комментарий" />
       </div>
       <NButton type="success" attr-type="submit" class="w-full bg-[#2C7CB0]" :style="{border: '#2C7CB0'}">Заказать</NButton>
     </form>

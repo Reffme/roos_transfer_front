@@ -4,13 +4,13 @@ import type {Car} from "@/models/CarType";
 export const carsOptions: Car[] = [
     {
      type: CarType.Economy,
-        passenger: 3,
-        baggage: 3,
+        passenger: 4,
+        baggage: 4,
     },
     {
         type: CarType.Comfort,
-        passenger: 3,
-        baggage: 3,
+        passenger: 4,
+        baggage: 4,
     },
     {
         type: CarType.ComfortPlus,
@@ -39,12 +39,12 @@ export const carsOptions: Car[] = [
     },
     {
         type: CarType.Minivan,
-        passenger: 4,
-        baggage: 4,
+        passenger: 10,
+        baggage: 10,
     },
     {
         type: CarType.CompactMinivan,
-        passenger: 8,
+        passenger: 6,
         baggage: 6,
     },
     {

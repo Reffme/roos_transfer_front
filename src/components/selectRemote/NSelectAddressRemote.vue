@@ -3,6 +3,7 @@
   import { useDadataStore } from '@/stores/dadata'
   import BaseRemoteSelect from '@/components/base/BaseRemoteSelect.vue'
   import {RemoteOption} from "@/models/RemoteOption";
+  import {isNumber} from "radash";
 
   const props = defineProps<{
     address?: string
@@ -22,10 +23,15 @@
     if (!query){
       return []
     }
-    options.value = (await getAddressSuggestions(query)).map((item) => ({
-      label: item.value,
-      value: item.value,
-    }))
+    options.value = (await getAddressSuggestions(query)).map((item) => {
+      console.log(item)
+      const label = item.unrestricted_value.split(',')
+      const [prefix, ...postfix] = label
+      return {
+        label: isNumber( Number(prefix))? postfix.join(','): label.join(','),
+        value: item.value,
+      }
+    })
     return options.value
   }
 

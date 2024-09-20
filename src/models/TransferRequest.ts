@@ -7,6 +7,7 @@ export interface TransferRequest {
     isExpressDelivery?: boolean
     isImmediate?: boolean
     personCount: number
+    luggageCount: number
     phoneNumber: string
     tableName?: string
     time: string

@@ -146,7 +146,6 @@
       remote
       :placeholder="placeholder || label"
       :disabled="disabled"
-      :multiple="multiple"
       @search="handleSearch"
       @update:value="handleUpdate"
     />

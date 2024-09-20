@@ -10,10 +10,18 @@ import BaseFormInput from "@/components/base/BaseFormInput.vue";
 
 const selectedCar = defineModel<Car>('selectedCar')
 const personCount = ref(0)
+const luggageCount = ref(0)
 const currentTab = defineModel('çurrentTab')
 const onUpdatePersonCount = (value: number) => {
   personCount.value = value
   if (value > (selectedCar.value?.passenger || 0)) {
+    selectedCar.value = undefined
+  }
+}
+
+const onUpdateLuggageCount = (value: number) => {
+  luggageCount.value = value
+  if (value > (selectedCar.value?.baggage || 0)) {
     selectedCar.value = undefined
   }
 }
@@ -26,21 +34,28 @@ const onUpdatePersonCount = (value: number) => {
       <slot/>
         <div class="flex max-md:flex-col">
         <BaseFormInput hide-label class="w-full" name="tableName" label="Имя для таблички (необязательно)" />
-      <BaseFormInputNumber
-          name="personCount"
-          class="w-full"
-          :max="50"
-          placeholder="Количество пассажиров"
-          @update:value="onUpdatePersonCount"
-      />
+        <BaseFormInputNumber
+            name="personCount"
+            class="w-full"
+            :max="50"
+            placeholder="Количество пассажиров"
+            @update:value="onUpdatePersonCount"
+        />
         </div>
+        <BaseFormInputNumber
+            name="luggageCount"
+            class="w-full"
+            :max="50"
+            placeholder="Количество багажных мест"
+            @update:value="onUpdateLuggageCount"
+        />
       <div class="flex flex-wrap gap-2 justify-center">
         <CarCard
             v-for="car in carsOptions"
             v-model:selected-car="selectedCar"
             :key="car.type"
             v-bind="car"
-            :disabled="car.passenger < personCount"
+            :disabled="car.passenger < personCount || car.baggage < luggageCount"
         />
       </div>
       </div>

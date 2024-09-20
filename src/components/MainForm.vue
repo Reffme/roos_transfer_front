@@ -46,6 +46,9 @@ const schema = computed<Partial<ValidationSchema>>(() => ({
   to: {
     required: true
   },
+  luggageCount: {
+    required: !(currentTab.value === 'delivery')
+  },
   personCount: {
     required: !(currentTab.value === 'delivery')
   },
@@ -151,7 +154,7 @@ const onConfirmClickHandler = handleSubmit(
 <template>
   <div class="flex-grow max-md:w-full flex justify-center items-start max-md:px-0">
     <form
-        class="w-[750px] max-md:w-full max-md:rounded-none flex flex-col justify-between max-md:h-full h-[820px] max-md:overflow-y-scroll rounded-xl shadow-custom p-6 custom-scrollbar"
+        class="w-[750px] max-md:w-full max-md:rounded-none flex flex-col justify-between max-md:h-full h-[850px] max-md:overflow-y-scroll rounded-xl shadow-custom p-6 custom-scrollbar"
         @submit.prevent="onConfirmClickHandler"
     >
       <div class="flex flex-col gap-2 max-md:overflow-y-scroll">

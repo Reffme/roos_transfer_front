@@ -27,7 +27,7 @@ const selectedCar = defineModel<Car>('selectedCar')
 
 
 const getImageUrl = (name:string) => {
-  return new URL(`../assets/icons/${name}`,`${import.meta.url}`)
+  return new URL(`../icons/${name}`,`${import.meta.url}`)
 }
 
 const onSelect = () => {

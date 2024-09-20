@@ -44,7 +44,7 @@ import router from "@/router";
       >
         <div class="flex w-full flex-col">
         <div
-          class="app-content flex flex-1 flex-col overflow-y-visible w-full h-full bg-appLayoutDefaultBackground-light overflow-x-hidden"
+          class="flex flex-col overflow-y-auto w-full h-full bg-appLayoutDefaultBackground-light overflow-x-hidden"
         >
           <router-view></router-view>
         </div>

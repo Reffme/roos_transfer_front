@@ -92,7 +92,7 @@ export const overrideNaiveUiTheme: GlobalThemeOverrides = {
     feedbackHeightMediumH: '16px'
   },
   Timeline: {
-    titleMarginMedium: '-4px 0px 4px 0px'
+    titleMarginMedium: '-4px 0px -20px 0px'
   },
   Menu: {
     itemTextColorActive: mainSuccessButtonColor,

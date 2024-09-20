@@ -154,10 +154,10 @@ const onConfirmClickHandler = handleSubmit(
 <template>
   <div class="flex-grow max-md:w-full flex justify-center items-start max-md:px-0">
     <form
-        class="w-[750px] max-md:w-full max-md:rounded-none flex flex-col justify-between max-md:h-full h-[850px] max-md:overflow-y-scroll rounded-xl shadow-custom p-6 custom-scrollbar"
+        class="w-[750px] max-md:w-full max-md:rounded-none flex flex-col justify-between max-md:h-full h-[850px] rounded-xl shadow-custom p-6 overflow-y-hidden"
         @submit.prevent="onConfirmClickHandler"
     >
-      <div class="flex flex-col gap-2 max-md:overflow-y-scroll">
+      <div class="flex flex-col gap-2">
         <FormTabs v-model:selected-car="selectedCar" v-model:çurrent-tab="currentTab"><PathInput v-model:from-option="fromOptions" v-model:to-option="toOptions" /></FormTabs>
         <BaseFormInput
             name="phoneNumber"

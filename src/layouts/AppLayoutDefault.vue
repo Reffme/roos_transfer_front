@@ -25,9 +25,9 @@ import router from "@/router";
         <div class="w-1/3 flex items-center gap-4">
           <NIcon :size="70" ><IconLogo/></NIcon>
           <div class="flex max-md:hidden flex-col">
-            <p ><a class="flex items-center text-[#2C7CB0]" href="tel:1234567890"><NIcon><Phone /></NIcon>+7 903 903 15 23</a></p>
-            <p><a class="flex items-center text-[#2C7CB0]" href="tel:1234567890"><NIcon><Phone /></NIcon>+7 991 435 77 07</a></p>
-            <p><a class="flex items-center text-[#2C7CB0]" href="tel:1234567890"><NIcon><Phone /></NIcon>+7 923 442 78 24</a></p>
+            <p ><a class="flex items-center text-[#2C7CB0]" href="tel:+79039031523"><NIcon><Phone /></NIcon>+7 903 903 15 23</a></p>
+            <p><a class="flex items-center text-[#2C7CB0]" href="tel:+79914357707"><NIcon><Phone /></NIcon>+7 991 435 77 07</a></p>
+            <p><a class="flex items-center text-[#2C7CB0]" href="tel:+79234427824"><NIcon><Phone /></NIcon>+7 923 442 78 24</a></p>
           </div>
         </div>
         <h1 class="text-3xl flex  items-center justify-center min-w-[225px] font-bold w-full">RooS Transfer</h1>

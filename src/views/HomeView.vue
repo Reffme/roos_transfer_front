@@ -16,6 +16,9 @@ useHead({
   meta: [
     { name: 'description', content: description },
     { name: 'keywords', content: keywords },
+    { key: 'og-title', property: 'og:title', content: 'Roos Transfer' },
+    { key: 'og-type', property: 'og:type', content: 'website' },
+    { key: 'og-description', property: 'og:description', content: description },
   ],
 });
 </script>

@@ -3,14 +3,13 @@ import {
   NButton,
   NIcon,
   NLayout,
-  NLayoutContent, NLayoutFooter, NLayoutHeader,
+  NLayoutContent, NLayoutHeader,
 } from 'naive-ui'
 import IconLogo from '@/assets/logo.svg?component'
 import VKIcon from '@/assets/vk.svg?component'
 import { Phone } from 'lucide-vue-next';
 import TGIcon from '@/assets/tg.svg?component'
   import { CSSProperties } from 'vue'
-import router from "@/router";
   const layoutContentStyle: CSSProperties = {
     display: 'flex',
     flexDirection: 'column',

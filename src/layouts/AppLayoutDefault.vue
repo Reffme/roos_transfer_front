@@ -9,6 +9,7 @@ import IconLogo from '@/assets/logo.svg?component'
 import VKIcon from '@/assets/vk.svg?component'
 import { Phone } from 'lucide-vue-next';
 import TGIcon from '@/assets/tg.svg?component'
+import WSIcon from '@/assets/ws.svg?component'
   import { CSSProperties } from 'vue'
   const layoutContentStyle: CSSProperties = {
     display: 'flex',
@@ -24,15 +25,14 @@ import TGIcon from '@/assets/tg.svg?component'
         <div class="w-1/3 flex items-center gap-4">
           <NIcon :size="70" ><IconLogo/></NIcon>
           <div class="flex max-md:hidden flex-col">
-            <p ><a class="flex items-center text-[#2C7CB0]" href="tel:+79039031523"><NIcon><Phone /></NIcon>+7 903 903 15 23</a></p>
-            <p><a class="flex items-center text-[#2C7CB0]" href="tel:+79914357707"><NIcon><Phone /></NIcon>+7 991 435 77 07</a></p>
-            <p><a class="flex items-center text-[#2C7CB0]" href="tel:+79234427824"><NIcon><Phone /></NIcon>+7 923 442 78 24</a></p>
+            <p ><a class="flex items-center text-[#2C7CB0] gap-1" href="tel:88007002188"><NIcon><Phone :strokeWidth="2.1" /></NIcon>8 800 700 21 88</a></p>
           </div>
         </div>
-        <h1 class="text-3xl flex  items-center justify-center min-w-[225px] font-bold w-full">RooS Transfer</h1>
-        <div class="w-1/3 max-md:items-start justify-center items-end gap-2 flex-col flex">
-          <NButton text><a href="https://vk.com/id101765329"><NIcon :size="32"><VKIcon/></NIcon></a></NButton>
-          <NButton text><a href="https://t.me/+SnU16Q1Td64xYmE6"><NIcon :size="32"><TGIcon/></NIcon></a></NButton>
+        <h1 class="text-3xl flex  items-center justify-center min-w-[200px] font-bold w-full">RooS Transfer</h1>
+        <div class="w-1/3 max-md:items-end justify-center items-end flex-col flex py-2">
+          <NButton text><a href="https://vk.com/id101765329"><NIcon :size="28"><VKIcon/></NIcon></a></NButton>
+          <NButton text><a href="https://t.me/+SnU16Q1Td64xYmE6"><NIcon :size="28"><TGIcon/></NIcon></a></NButton>
+          <NButton class="pr-0.5" text><a href="https://wa.me/message/V34EXZ6PYRAAK1"><NIcon color="#00e577" :size="24"><WSIcon/></NIcon></a></NButton>
         </div>
       </header>
     </NLayoutHeader>
@@ -48,9 +48,7 @@ import TGIcon from '@/assets/tg.svg?component'
           <router-view></router-view>
         </div>
         <div class="max-md:flex items-center justify-center gap-2 p-2 hidden flex-wrap">
-          <p class="w-[150px]"><a class="flex items-center text-[#2C7CB0]" href="tel:+79039031523"><NIcon><Phone /></NIcon>+7 903 903 15 23</a></p>
-          <p class="w-[150px]"><a class="flex items-center text-[#2C7CB0]" href="tel:+79914357707"><NIcon><Phone /></NIcon>+7 991 435 77 07</a></p>
-          <p class="w-[150px]"><a class="flex items-center text-[#2C7CB0]" href="tel:+79234427824"><NIcon><Phone /></NIcon>+7 923 442 78 24</a></p>
+          <p ><a class="flex items-center text-[#2C7CB0] gap-1" href="tel:88007002188"><NIcon><Phone /></NIcon>8 800 700 21 88</a></p>
         </div>
         </div>
       </NLayoutContent>

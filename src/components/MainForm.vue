@@ -166,12 +166,12 @@ const onConfirmClickHandler = handleSubmit(
             get-unmasked-value
         />
         <div class="flex">
-          <div class="flex max-md:hidden w-full">
+          <div class="flex max-md:hidden w-full pt-1">
             <NTooltip trigger="hover">
               <template #trigger>
                 <div class="flex w-full">
-                   <NCheckbox v-model:checked="isImmediate" @update-checked="onUpdateImmediateState" class="max-md:hidden pl-2 w-full">Как можно скорее</NCheckbox>
-                  <Info class="w-1/4"/>
+                  <NCheckbox v-model:checked="isImmediate" @update-checked="onUpdateImmediateState" class="max-md:hidden pl-2 w-fit">Как можно скорее</NCheckbox>
+                  <Info class="w-fit pl-[2px] flex items-start"/>
                 </div>
               </template>
               <div class="flex w-60">{{isImmediateText}}</div>
@@ -202,12 +202,12 @@ const onConfirmClickHandler = handleSubmit(
             </template>
             <div class="flex w-60">{{expressInfoText}}</div>
           </NTooltip></div>
-          <div class="max-md:hidden flex">
+          <div class="max-md:hidden pt-1 flex w-full">
             <NTooltip trigger="hover">
               <template #trigger>
-                <div class="flex items-center">
-                  <NCheckbox v-model:checked="isExpressDelivery" class="flex px-2 w-[205px] flex-row py-1">Экспресс поездка</NCheckbox>
-                  <Info class="w-1/4"/>
+                <div class="flex w-full">
+                  <NCheckbox v-model:checked="isExpressDelivery" class="flex px-2 w-fit">Экспресс поездка</NCheckbox>
+                  <Info class="w-fit pl-[-4x]"/>
                 </div>
               </template>
               <div class="flex w-60">{{expressInfoText}}</div>

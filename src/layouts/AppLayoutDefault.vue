@@ -30,7 +30,7 @@ import WSIcon from '@/assets/ws.svg?component'
         <p ><a class="flex items-center text-[#2C7CB0] gap-1" href="tel:88007002188"><NIcon><Phone :strokeWidth="2.1" /></NIcon>8 800 700 21 88</a></p>
         </div>
         <div class="w-1/3 max-md:items-end justify-center items-end flex-col flex py-2">
-          <NButton text><a href="https://vk.com/id101765329"><NIcon :size="28"><VKIcon/></NIcon></a></NButton>
+          <NButton text><a href="https://vk.com/roostransfer"><NIcon :size="28"><VKIcon/></NIcon></a></NButton>
           <NButton text><a href="https://t.me/+SnU16Q1Td64xYmE6"><NIcon :size="28"><TGIcon/></NIcon></a></NButton>
           <NButton class="pr-0.5" text><a href="https://wa.me/message/V34EXZ6PYRAAK1"><NIcon color="#00e577" :size="24"><WSIcon/></NIcon></a></NButton>
         </div>
